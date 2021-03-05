@@ -1,11 +1,21 @@
 import { authService, firebaseInstance } from "firebaseConfig";
 import React from "react";
+import ReactDOM from "react-dom";
+import { FcGoogle } from "react-icons/fc";
+import { IoLogoGithub } from "react-icons/io";
 
 const SocialAuth = () => {
   const onSocialClick = async (e) => {
-    const {
-      target: { name },
-    } = e;
+    let name;
+
+    for (let i = 0; i < e.nativeEvent.path.length; i++) {
+      const element = ReactDOM.findDOMNode(e.nativeEvent.path[i]);
+
+      if (element.matches("button")) {
+        name = element.name;
+        break;
+      }
+    }
 
     let provider;
     if (name === "google") {
@@ -18,12 +28,20 @@ const SocialAuth = () => {
   };
 
   return (
-    <div>
-      <button name="google" onClick={onSocialClick}>
-        Continue with Google
+    <div className="auth__social-container">
+      <button
+        className="social-button google"
+        name="google"
+        onClick={onSocialClick}
+      >
+        <FcGoogle />
       </button>
-      <button name="github" onClick={onSocialClick}>
-        Continue with Github
+      <button
+        className="social-button github"
+        name="github"
+        onClick={onSocialClick}
+      >
+        <IoLogoGithub />
       </button>
     </div>
   );

@@ -1,12 +1,12 @@
 import React from "react";
 import AuthForm from "components/Auth/AuthForm";
-import SocialAuth from "components/Auth/SocialAuth";
+import { IoLogoTwitter } from "react-icons/io";
 
-const Auth = () => {
+const Auth = ({ refreshUser }) => {
   return (
-    <div>
-      <AuthForm />
-      <SocialAuth />
+    <div className="auth-container">
+      <IoLogoTwitter className="auth__logo" />
+      <AuthForm refreshUser={refreshUser} />
     </div>
   );
 };

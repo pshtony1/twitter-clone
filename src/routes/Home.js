@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { dbService } from "firebaseConfig";
 import Tweet from "components/Tweet/Tweet";
-import UploadTweet from "components/Tweet/UploadTweet";
 
 const Home = ({ userObj }) => {
   const [tweets, setTweets] = useState([]);
@@ -21,9 +20,8 @@ const Home = ({ userObj }) => {
   }, []);
 
   return (
-    <div>
-      <UploadTweet userObj={userObj} />
-      <div>
+    <div className="home">
+      <div className="tweets">
         {tweets.map((tweet) => (
           <Tweet
             key={tweet.id}

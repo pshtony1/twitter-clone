@@ -13,6 +13,7 @@ function App() {
           displayName: user.displayName,
           uid: user.uid,
           updateProfile: (args) => user.updateProfile(args),
+          photoURL: user.photoURL,
         });
       } else {
         setUserObj(null);
@@ -22,13 +23,20 @@ function App() {
     });
   }, []);
 
-  const refreshUser = () => {
-    const user = authService.currentUser;
+  const refreshUser = (customUser = null) => {
+    let user;
+
+    if (customUser) {
+      user = customUser;
+    } else {
+      user = authService.currentUser;
+    }
 
     setUserObj({
       displayName: user.displayName,
       uid: user.uid,
       updateProfile: (args) => user.updateProfile(args),
+      photoURL: user.photoURL,
     });
   };
 
@@ -43,7 +51,7 @@ function App() {
       ) : (
         "Initializing..."
       )}
-      <footer>&copy; {new Date().getFullYear()} Cwitter</footer>
+      {/* <footer>&copy; {new Date().getFullYear()} Cwitter</footer> */}
     </>
   );
 }

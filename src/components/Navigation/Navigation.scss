@@ -1,0 +1,146 @@
+@import "scss/_variables";
+
+.navigation {
+  user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  position: relative;
+  width: 100%;
+  height: 70px;
+  background-color: $navBgColor;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  margin-bottom: 10px;
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .home {
+    justify-content: flex-start;
+    color: $logoColor;
+    font-size: 30px;
+  }
+
+  .add-tweet {
+    width: 40px;
+    height: 40px;
+    // border: 2px solid white;
+    background-color: $logoColor;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    cursor: pointer;
+    transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  .add-tweet.active {
+    transform: rotate(45deg);
+    background-color: $errorRed;
+  }
+
+  .nav-item.profile {
+    justify-content: flex-end;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: white;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .profile-menu {
+    position: absolute;
+    z-index: 2;
+    width: 200px;
+    height: auto;
+    right: 10px;
+    top: calc(100% - 10px);
+    display: flex;
+    flex-direction: column;
+    background-color: #21262d;
+    border-radius: 10px;
+    border: 1px solid rgb(77, 84, 95);
+
+    .profile-menu__name {
+      display: block;
+      height: 50px;
+      line-height: 50px;
+      border-bottom: 1px solid #3a4049;
+      padding: 0 15px;
+      font-size: 14px;
+    }
+
+    .menu-item {
+      width: 100%;
+      height: 40px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding-left: 15px;
+      cursor: pointer;
+      text-decoration: none;
+      color: white;
+      background-color: inherit;
+      font-size: 14px;
+    }
+
+    .menu-item:hover {
+      background-color: #171a1d;
+    }
+
+    .profile {
+      margin-top: 5px;
+    }
+
+    .logout {
+      margin-bottom: 5px;
+    }
+  }
+
+  .add-tweet-container {
+    position: absolute;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 1;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: $navBgColor;
+    border-top: 1px solid #3a4049;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 20px 10px;
+  }
+
+  .add-tweet-container::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .add-tweet-container::-webkit-scrollbar-track {
+    background-color: inherit;
+    border-bottom-right-radius: 10px;
+  }
+
+  .add-tweet-container::-webkit-scrollbar-thumb,
+  .add-tweet-container::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+  }
+}

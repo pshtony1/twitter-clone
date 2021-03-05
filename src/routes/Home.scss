@@ -1,0 +1,13 @@
+@import "components/Tweet/UploadTweet";
+@import "components/Navigation/Navigation";
+@import "components/Tweet/Tweet";
+
+.home {
+  max-height: calc(100vh - 70px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.home::-webkit-scrollbar {
+  width: 0;
+}

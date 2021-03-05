@@ -4,6 +4,7 @@ import React, { useState } from "react";
 const Tweet = ({ tweetObj, isOwner }) => {
   const [editing, setEditing] = useState(false);
   const [newTweet, setNewTweet] = useState(tweetObj.text);
+  const [seeingMore, setSeeingMore] = useState(false);
 
   const onDeleteClick = async () => {
     const ok = window.confirm("Are you sure you want to delete this tweet?");
@@ -35,42 +36,66 @@ const Tweet = ({ tweetObj, isOwner }) => {
     setNewTweet(value);
   };
 
+  const onSeeMoreClick = () => {
+    setSeeingMore((prev) => !prev);
+  };
+
   return (
-    <div>
-      <div>
-        {editing ? (
-          <>
-            {isOwner && (
-              <>
-                <form onSubmit={onSubmit}>
-                  <input
-                    type="text"
-                    placeholder="Edit your tweet"
-                    value={newTweet}
-                    required
-                    onChange={onChange}
-                  />
-                  <input type="submit" value="Update Tweet" />
-                </form>
-                <button onClick={toggleEditing}>Cancel</button>
-              </>
-            )}
-          </>
-        ) : (
-          <>
-            <h4>{tweetObj.text}</h4>
-            {tweetObj.attachmentURL && (
-              <img src={tweetObj.attachmentURL} width="100px" height="100px" />
-            )}
-            {isOwner && (
-              <>
-                <button onClick={onDeleteClick}>Delete Tweet</button>
-                <button onClick={toggleEditing}>Edit Tweet</button>
-              </>
-            )}
-          </>
-        )}
+    <div className="tweet-container">
+      <div className="tweet__header">
+        <img src={tweetObj.user.photoURL} alt="" />
+        <span>{tweetObj.user.displayName}</span>
       </div>
+      {editing ? (
+        <>
+          {isOwner && (
+            <>
+              <form onSubmit={onSubmit}>
+                <input
+                  type="text"
+                  placeholder="Edit your tweet"
+                  value={newTweet}
+                  required
+                  onChange={onChange}
+                />
+                <input type="submit" value="Update Tweet" />
+              </form>
+              <button onClick={toggleEditing}>Cancel</button>
+            </>
+          )}
+        </>
+      ) : (
+        <>
+          <span className="tweet__text">
+            {!seeingMore ? (
+              <>
+                {tweetObj.text.slice(0, 100)}
+                {tweetObj.text.length > 100 && (
+                  <>
+                    ...
+                    <span className="see-more" onClick={onSeeMoreClick}>
+                      See More
+                    </span>
+                  </>
+                )}
+              </>
+            ) : (
+              <>{tweetObj.text}</>
+            )}
+          </span>
+          {tweetObj.attachmentURL && (
+            <div className="tweet__img-container">
+              <img className="tweet__img" src={tweetObj.attachmentURL} />
+            </div>
+          )}
+          {isOwner && (
+            <>
+              <button onClick={onDeleteClick}>Delete Tweet</button>
+              <button onClick={toggleEditing}>Edit Tweet</button>
+            </>
+          )}
+        </>
+      )}
     </div>
   );
 };

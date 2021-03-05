@@ -1,0 +1,33 @@
+@import "./variables";
+@import "routes/Auth.scss";
+@import "routes/Home.scss";
+
+* {
+  font-family: "Open Sans", "NanumSquare", sans-serif;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: $bgColor;
+  color: white;
+
+  #root {
+    position: relative;
+    width: 430px;
+    height: 100%;
+    overflow: hidden;
+    margin: auto;
+  }
+}
+
+@media (max-width: 30em) {
+  body {
+    #root {
+      width: 100%;
+    }
+  }
+}

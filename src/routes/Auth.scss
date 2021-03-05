@@ -1,0 +1,33 @@
+@import "scss/_variables";
+@import "components/Auth/AuthForm";
+@import "components/Auth/SocialAuth";
+
+.auth-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  width: 100%;
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .auth__logo {
+    font-size: 60px;
+    color: $logoColor;
+    margin-bottom: 40px;
+  }
+}
+
+@media (max-width: 30em) {
+  .auth-container {
+    width: 60%;
+  }
+}

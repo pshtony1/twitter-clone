@@ -1,26 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { authService, dbService } from "firebaseConfig";
-import { useHistory } from "react-router-dom";
+// import { dbService } from "firebaseConfig";
 
 const Profile = ({ userObj, refreshUser }) => {
   const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
-  const history = useHistory();
-
-  const onLogOutClick = () => {
-    authService.signOut();
-    history.push("/");
-  };
 
   const getMyTweets = async () => {
-    const tweets = await dbService
-      .collection("tweets")
-      .where("creatorId", "==", userObj.uid)
-      .orderBy("createdAt")
-      .get();
-
-    const myTweets = tweets.docs.map((doc) => doc.data());
-
-    console.log(tweets.docs.map((doc) => doc.data()));
+    // const tweets = await dbService
+    //   .collection("tweets")
+    //   .where("creatorId", "==", userObj.uid)
+    //   .orderBy("createdAt")
+    //   .get();
+    // const myTweets = tweets.docs.map((doc) => doc.data());
+    // console.log(tweets.docs.map((doc) => doc.data()));
   };
 
   useEffect(() => {
@@ -58,7 +49,6 @@ const Profile = ({ userObj, refreshUser }) => {
         />
         <input type="submit" value="Update Profile" />
       </form>
-      <button onClick={onLogOutClick}>Log Out</button>
     </>
   );
 };
