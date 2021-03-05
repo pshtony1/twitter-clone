@@ -1,0 +1,111 @@
+@import "scss/_variables";
+
+h3 {
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #2f3238;
+}
+
+.profile-edit-container {
+  margin-left: 15px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-bottom: 50px;
+
+  span {
+    font-size: 15px;
+    font-weight: 600;
+    color: rgba($color: white, $alpha: 0.9);
+    margin-bottom: 15px;
+  }
+
+  .profile-edit__name {
+    width: 70%;
+    outline: 0;
+    border: 1px solid #2f3238;
+    background-color: inherit;
+    color: white;
+    padding: 8px 12px;
+    font-size: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
+
+  .profile-edit__name:focus {
+    border: 1px solid $logoColor;
+    box-shadow: 0 0 5px $logoColor;
+  }
+
+  .profile-edit__photo {
+    width: calc(100% - 15px);
+    height: 100px;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    img {
+      width: 100px;
+      height: 100px;
+      background-color: white;
+      border-radius: 50%;
+    }
+
+    .edit-photo__button-container {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: flex-start;
+      margin-right: 20px;
+
+      #edit-photo__file-upload {
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+      }
+
+      .edit-photo__button-remove,
+      label {
+        width: 120px;
+        height: 35px;
+        outline: 0;
+        border: 0;
+        color: white;
+        cursor: pointer;
+        font-size: 13px;
+        border-radius: 5px;
+        font-weight: 600;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .edit-photo__button-remove {
+        background-color: $errorRed;
+      }
+
+      label {
+        background-color: rgba(172, 255, 47, 0.75);
+      }
+    }
+  }
+
+  .profile-edit__submit {
+    outline: 0;
+    border: 0;
+    background-color: $logoColor;
+    padding: 8px 15px;
+    color: white;
+    border-radius: 3px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+}

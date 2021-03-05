@@ -4,6 +4,7 @@ import { IoLogoTwitter } from "react-icons/io";
 import { authService } from "firebaseConfig";
 import { FiPlus } from "react-icons/fi";
 import UploadTweet from "components/Tweet/UploadTweet";
+import { useClickOutSide } from "utils/ClickOutSide";
 
 const Navigation = ({ userObj }) => {
   const [openProfile, setOpenProfile] = useState(false);
@@ -19,14 +20,25 @@ const Navigation = ({ userObj }) => {
     setOpenProfile(false);
   };
 
-  const toggleProfile = () => {
+  const toggleProfile = (e, element) => {
+    const profile = document.querySelector(".nav-item.profile");
+
+    profile.classList.toggle("active");
     setOpenProfile((prev) => !prev);
   };
 
-  const toggleAddTweet = () => {
-    document.querySelector(".add-tweet").classList.toggle("active");
+  const toggleAddTweet = (e, element) => {
+    const addTweet = document.querySelector(".add-tweet");
+
+    addTweet.classList.toggle("active");
     setopenAddTweet((prev) => !prev);
   };
+
+  const clickOutRef_Profile = useClickOutSide(
+    ".nav-item.profile",
+    toggleProfile
+  );
+  const clickOutRef_AddTweet = useClickOutSide(".add-tweet", toggleAddTweet);
 
   return (
     <nav className="navigation">
@@ -47,12 +59,12 @@ const Navigation = ({ userObj }) => {
         />
       </div>
       {openProfile && (
-        <div className="profile-menu">
+        <div className="profile-menu" ref={clickOutRef_Profile}>
           <span className="profile-menu__name">
             Hello, <strong>{userObj.displayName}</strong>
           </span>
           <Link
-            to="/profile"
+            to={`/profile/${userObj.uid}`}
             className="menu-item profile"
             onClick={onLinkClick}
           >
@@ -64,7 +76,7 @@ const Navigation = ({ userObj }) => {
         </div>
       )}
       {openAddTweet && (
-        <div className="add-tweet-container">
+        <div className="add-tweet-container" ref={clickOutRef_AddTweet}>
           <UploadTweet userObj={userObj} toggleAddTweet={toggleAddTweet} />
         </div>
       )}

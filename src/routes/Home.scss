@@ -1,6 +1,7 @@
 @import "components/Tweet/UploadTweet";
 @import "components/Navigation/Navigation";
 @import "components/Tweet/Tweet";
+@import "utils/Skeleton";
 
 .home {
   max-height: calc(100vh - 70px);

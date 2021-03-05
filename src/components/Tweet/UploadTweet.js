@@ -3,10 +3,13 @@ import { v4 as uuidv4 } from "uuid";
 import { dbService, storageService } from "firebaseConfig";
 import { BiImageAdd } from "react-icons/bi";
 import { RiDeleteBin2Fill } from "react-icons/ri";
+import { useHistory } from "react-router-dom";
 
 const UploadTweet = ({ userObj, toggleAddTweet }) => {
   const [tweet, setTweet] = useState("");
+  const [attachmentHeight, setAttachmentHeight] = useState(null);
   const [attachment, setAttachment] = useState("");
+  const history = useHistory();
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -23,16 +26,20 @@ const UploadTweet = ({ userObj, toggleAddTweet }) => {
       attachmentURL = await response.ref.getDownloadURL();
     }
 
+    const createdAt = Date.now();
     const tweetObj = {
       text: tweet,
-      createdAt: Date.now(),
+      createdAt,
+      updatedAt: createdAt,
       creatorId: userObj.uid,
       attachmentURL,
+      attachmentHeight: attachmentHeight || 0,
       user: {
         displayName: userObj.displayName,
         uid: userObj.uid,
         photoURL: userObj.photoURL,
       },
+      likes: [],
     };
 
     await dbService.collection("tweets").add(tweetObj);
@@ -40,6 +47,7 @@ const UploadTweet = ({ userObj, toggleAddTweet }) => {
     setTweet("");
     setAttachment("");
     toggleAddTweet();
+    history.push("/");
   };
 
   const onChange = (e) => {
@@ -47,18 +55,21 @@ const UploadTweet = ({ userObj, toggleAddTweet }) => {
       target: { value },
     } = e;
 
-    const textarea = document.querySelector(".add-tweet__submit");
+    const submit = document.querySelector(".add-tweet__submit");
 
     if (value.length > 0) {
-      textarea.classList.add("active");
+      submit.classList.add("active");
     } else {
-      textarea.classList.remove("active");
+      submit.classList.remove("active");
     }
 
     setTweet(value);
   };
 
   const onFileChange = (e) => {
+    const submit = document.querySelector(".add-tweet__submit");
+    submit.classList.remove("active");
+
     const {
       target: { files },
     } = e;
@@ -69,6 +80,24 @@ const UploadTweet = ({ userObj, toggleAddTweet }) => {
       const {
         currentTarget: { result },
       } = finishedEvent;
+
+      let image = new Image();
+      image.onload = function () {
+        const rect = document.getElementById("root").getBoundingClientRect();
+        const maxWidth = rect.width - 30;
+        const sizeRate = maxWidth / this.width;
+
+        if (sizeRate * this.height >= 600) {
+          setAttachmentHeight(600);
+        } else {
+          setAttachmentHeight(Math.floor(sizeRate * this.height));
+        }
+
+        if (document.querySelector(".add-tweet__input").value.length > 0) {
+          submit.classList.add("active");
+        }
+      };
+      image.src = result;
 
       setAttachment(result);
     };

@@ -1,0 +1,74 @@
+@import "scss/_variables";
+
+.skeleton__tweet-container {
+  width: 100%;
+
+  .skeleton__tweet-header {
+    width: 100%;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    .skeleton__user-img {
+      width: 45px;
+      height: 45px;
+      background-color: $skeletonBgColor;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .skeleton__tweet-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+
+      .skeleton__info-display-name {
+        width: 50px;
+        height: 17px;
+        background-color: $skeletonBgColor;
+        border-radius: 3px;
+        margin-bottom: 7px;
+      }
+
+      .skeleton__info-time {
+        width: 100px;
+        height: 13px;
+        background-color: $skeletonBgColor;
+        border-radius: 3px;
+      }
+    }
+  }
+
+  .skeleton__tweet-text {
+    width: 100%;
+    height: 30px;
+    background-color: $skeletonBgColor;
+    border-radius: 3px;
+  }
+
+  .skeleton__tweet-img {
+    width: 100%;
+    margin-top: 15px;
+    background-color: $skeletonBgColor;
+    border-radius: 3px;
+  }
+
+  .skeleton__tweet-like-container {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+    margin-bottom: 10px;
+
+    .skeleton__tweet-like {
+      width: 80px;
+      height: 30px;
+      background-color: $skeletonBgColor;
+      border-radius: 3px;
+    }
+  }
+}

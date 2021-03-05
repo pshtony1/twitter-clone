@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AppRouter from "components/Router";
+import { IoLogoTwitter } from "react-icons/io";
 import { authService } from "firebaseConfig";
 
 function App() {
@@ -23,7 +24,7 @@ function App() {
     });
   }, []);
 
-  const refreshUser = (customUser = null) => {
+  const refreshUser = (customUser = null, obj) => {
     let user;
 
     if (customUser) {
@@ -32,12 +33,21 @@ function App() {
       user = authService.currentUser;
     }
 
-    setUserObj({
-      displayName: user.displayName,
-      uid: user.uid,
-      updateProfile: (args) => user.updateProfile(args),
-      photoURL: user.photoURL,
-    });
+    if (obj) {
+      setUserObj((prev) => {
+        return {
+          ...prev,
+          ...obj,
+        };
+      });
+    } else {
+      setUserObj({
+        displayName: user.displayName,
+        uid: user.uid,
+        updateProfile: (args) => user.updateProfile(args),
+        photoURL: user.photoURL,
+      });
+    }
   };
 
   return (
@@ -49,9 +59,11 @@ function App() {
           refreshUser={refreshUser}
         />
       ) : (
-        "Initializing..."
+        <div className="app-init-loader">
+          <IoLogoTwitter className="loading-logo" />
+          <footer>&copy; 2021 Twitter Clone</footer>
+        </div>
       )}
-      {/* <footer>&copy; {new Date().getFullYear()} Cwitter</footer> */}
     </>
   );
 }
