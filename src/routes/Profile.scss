@@ -55,6 +55,10 @@ h3 {
       border-radius: 50%;
     }
 
+    .profile-edit-photo__loader {
+      margin-right: 60px;
+    }
+
     .edit-photo__button-container {
       height: 100%;
       display: flex;
@@ -107,5 +111,25 @@ h3 {
     border-radius: 3px;
     font-weight: 600;
     cursor: pointer;
+    transition: opacity 0.1s linear;
+  }
+
+  .profile-edit__submit.un-active {
+    opacity: 0.6;
+    cursor: default;
+  }
+
+  .profile-edit__submit.updating {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 122.67px;
+    height: 34px;
+    background-color: $semiLogoColor;
+    cursor: default;
+
+    .profile-edit-photo__loader {
+      height: 20px;
+    }
   }
 }

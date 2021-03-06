@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
+import Loader from "react-loader-spinner";
 import { dbService } from "firebaseConfig";
 import Tweet from "components/Tweet/Tweet";
 import {
@@ -12,6 +13,8 @@ import {
 const Profile = ({ userObj, refreshUser }) => {
   const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
   const [userTweets, setUserTweets] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const [updatingName, setUpdatingName] = useState(false);
   const { id: findId } = useParams();
   const history = useHistory();
 
@@ -31,12 +34,20 @@ const Profile = ({ userObj, refreshUser }) => {
 
   useEffect(() => {
     getUserTweets();
-  });
+  }, []);
 
   const onChange = (e) => {
     const {
       target: { value },
     } = e;
+
+    const submit = document.querySelector(".profile-edit__submit");
+
+    if (userObj.displayName === value) {
+      submit.classList.add("un-active");
+    } else {
+      submit.classList.remove("un-active");
+    }
 
     setNewDisplayName(value);
   };
@@ -45,6 +56,7 @@ const Profile = ({ userObj, refreshUser }) => {
     e.preventDefault();
 
     if (userObj.displayName !== newDisplayName) {
+      setUpdatingName(true);
       setUserTweets((prev) => {
         return prev.map((tweetObj) => {
           tweetObj.user.displayName = newDisplayName;
@@ -53,8 +65,8 @@ const Profile = ({ userObj, refreshUser }) => {
         });
       });
 
-      userTweets.forEach((tweetObj) => {
-        updateTweetFromFirebase(tweetObj.id, {
+      userTweets.forEach(async (tweetObj) => {
+        await updateTweetFromFirebase(tweetObj.id, {
           user: {
             ...tweetObj.user,
             displayName: newDisplayName,
@@ -66,6 +78,7 @@ const Profile = ({ userObj, refreshUser }) => {
         displayName: newDisplayName,
       });
 
+      setUpdatingName(false);
       refreshUser();
     }
   };
@@ -76,11 +89,11 @@ const Profile = ({ userObj, refreshUser }) => {
         currentTarget: { result },
       } = finishedEvent;
 
-      removeFileFromStorage(userObj.photoURL);
-      const photoURL = uploadFileToStorage(userObj.uid, result);
+      await removeFileFromStorage(userObj.photoURL);
+      const photoURL = await uploadFileToStorage(userObj.uid, result);
 
-      userTweets.forEach((tweetObj) => {
-        updateTweetFromFirebase(tweetObj.id, {
+      userTweets.forEach(async (tweetObj) => {
+        await updateTweetFromFirebase(tweetObj.id, {
           user: {
             ...tweetObj.user,
             photoURL,
@@ -93,16 +106,20 @@ const Profile = ({ userObj, refreshUser }) => {
       });
 
       history.go(0);
+      setUploading(false);
     };
 
+    setUploading(true);
     readFile(e, onFileLoad);
   };
 
   const onRemoveClick = async () => {
-    removeFileFromStorage(userObj.photoURL);
+    setUploading(true);
+
+    await removeFileFromStorage(userObj.photoURL);
 
     userTweets.forEach(async (tweetObj) => {
-      updateTweetFromFirebase(tweetObj.id, {
+      await updateTweetFromFirebase(tweetObj.id, {
         user: {
           ...tweetObj.user,
           photoURL: "",
@@ -115,6 +132,7 @@ const Profile = ({ userObj, refreshUser }) => {
     });
 
     history.go(0);
+    setUploading(false);
   };
 
   return (
@@ -143,29 +161,50 @@ const Profile = ({ userObj, refreshUser }) => {
                 }
                 alt=""
               />
-              <div className="edit-photo__button-container">
-                <input
-                  className="edit-photo__file-upload"
-                  type="file"
-                  accept="image/*"
-                  onChange={onFileChange}
-                  id="edit-photo__file-upload"
+              {uploading ? (
+                <Loader
+                  className="profile-edit-photo__loader"
+                  type="Oval"
+                  color="#00BFFF"
+                  height={25}
+                  width={25}
                 />
-                <label htmlFor="edit-photo__file-upload">Upload photo</label>
-                <div
-                  className="edit-photo__button-remove"
-                  onClick={onRemoveClick}
-                >
-                  Remove photo
+              ) : (
+                <div className="edit-photo__button-container">
+                  <input
+                    className="edit-photo__file-upload"
+                    type="file"
+                    accept="image/*"
+                    onChange={onFileChange}
+                    id="edit-photo__file-upload"
+                  />
+                  <label htmlFor="edit-photo__file-upload">Upload photo</label>
+                  <div
+                    className="edit-photo__button-remove"
+                    onClick={onRemoveClick}
+                  >
+                    Remove photo
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
-
-            <input
-              type="submit"
-              value="Update Profile"
-              className="profile-edit__submit"
-            />
+            {updatingName ? (
+              <div className="profile-edit__submit updating">
+                <Loader
+                  className="profile-edit-photo__loader"
+                  type="Oval"
+                  color="#00BFFF"
+                  height={20}
+                  width={20}
+                />
+              </div>
+            ) : (
+              <input
+                type="submit"
+                value="Update Profile"
+                className="profile-edit__submit un-active"
+              />
+            )}
           </form>
         </>
       )}

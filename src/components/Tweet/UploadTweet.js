@@ -2,30 +2,23 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { BiImageAdd } from "react-icons/bi";
 import { RiDeleteBin2Fill } from "react-icons/ri";
-import { v4 as uuidv4 } from "uuid";
-import { dbService, storageService } from "firebaseConfig";
-import { readFile } from "utils/ManageData";
+import Loader from "react-loader-spinner";
+import { dbService } from "firebaseConfig";
+import { readFile, uploadFileToStorage } from "utils/ManageData";
 
 const UploadTweet = ({ userObj, toggleAddTweet }) => {
   const [tweet, setTweet] = useState("");
   const [attachmentHeight, setAttachmentHeight] = useState(null);
   const [attachment, setAttachment] = useState("");
+  const [uploading, setUploading] = useState(false);
   const history = useHistory();
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
     if (tweet.length < 1) return;
 
-    let attachmentURL = "";
-
-    if (attachment !== "") {
-      const attachmentRef = storageService
-        .ref()
-        .child(`${userObj.uid}/${uuidv4()}`);
-      const response = await attachmentRef.putString(attachment, "data_url");
-      attachmentURL = await response.ref.getDownloadURL();
-    }
+    setUploading(true);
+    const attachmentURL = await uploadFileToStorage(userObj.uid, attachment);
 
     const createdAt = Date.now();
     const tweetObj = {
@@ -48,6 +41,7 @@ const UploadTweet = ({ userObj, toggleAddTweet }) => {
     setTweet("");
     setAttachment("");
     toggleAddTweet();
+    setUploading(false);
     history.push("/");
   };
 
@@ -80,12 +74,12 @@ const UploadTweet = ({ userObj, toggleAddTweet }) => {
       image.onload = () => {
         const rect = document.getElementById("root").getBoundingClientRect();
         const maxWidth = rect.width - 30;
-        const sizeRate = maxWidth / this.width;
+        const sizeRate = maxWidth / image.width;
 
-        if (sizeRate * this.height >= 600) {
+        if (sizeRate * image.height >= 600) {
           setAttachmentHeight(600);
         } else {
-          setAttachmentHeight(Math.floor(sizeRate * this.height));
+          setAttachmentHeight(Math.floor(sizeRate * image.height));
         }
 
         if (document.querySelector(".add-tweet__input").value.length > 0) {
@@ -134,7 +128,17 @@ const UploadTweet = ({ userObj, toggleAddTweet }) => {
         maxLength={1000}
         spellCheck="false"
       />
-      <input className="add-tweet__submit" type="submit" value="Tweet" />
+      {uploading ? (
+        <Loader
+          className="auth-submit__loader"
+          type="Oval"
+          color="#00BFFF"
+          height={25}
+          width={25}
+        />
+      ) : (
+        <input className="add-tweet__submit" type="submit" value="Tweet" />
+      )}
     </form>
   );
 };
