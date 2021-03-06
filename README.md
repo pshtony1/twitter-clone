@@ -59,3 +59,59 @@ Real-Time 적용이 지원되는 항목은 `R`이 붙는다.
 
 <br />
 
+## 3. 문제 및 해결
+
+### 🙉 트윗 로딩이 너무 부자연스럽다.
+
+용량이 큰 사진들은 로딩에 상대적으로 긴 시간이 걸리기에, 사진을 불러오는동안 사용자가 해당 영역에 사진이 없다고 착각할 수 있는 문제가 있었다.
+
+#### ✔ 스켈레톤(Skeleton) 로딩을 적용하였다.
+![skeleton](https://user-images.githubusercontent.com/67461578/110205868-e1f85880-7ebd-11eb-9ac0-a3cb6d79ad06.gif)
+
+`InterSectionObserver`를 이용해 `lazy-loading`을 구현할까 생각했지만, 스켈레톤 로딩을 적용하는 것이 이 문제를 해결하는데 더 적합하다고 판단했다. 
+
+1. 아래와 같이 스켈레톤의 뼈대가 될 컴포넌트를 만들었다.
+
+```js
+const TweetSkeleton = ({ attachmentURL, attachmentHeight }) => {
+  return (
+    <div className="skeleton__tweet-container">
+      <div className="skeleton__tweet-header">
+        <div className="skeleton__user-img"></div>
+    
+    ... 중략
+    
+    </div>
+  );
+};
+```
+
+2. 스켈레톤의 뼈대에 스타일을 적용했다.
+
+```scss
+.skeleton__tweet-container {
+  width: 100%;
+
+  .skeleton__tweet-header {
+    width: 100%;
+    margin-bottom: 15px;
+    display: flex;
+      
+... 이하 생략
+
+```
+
+3. `new Image()` 를 이용해 미리 이미지를 불러오고, `onload` 이벤트를 이용해 state를 조작하여 스켈레톤 로딩을 온/오프했다.
+
+<br />
+
+### 🙉 특정 submit 이벤트들에서 다중 submit의 가능성이 존재했다.
+
+예를 들어, 로그인/회원가입 로직(비동기 처리)이 작동중임에도,  
+중복해서 로그인/회원가입 로직을 실행시킬 수 있었다.
+
+#### ✔ 비동기 처리 로직에 비활성화/로딩 기능을 추가했다.
+
+![loading3](https://user-images.githubusercontent.com/67461578/110206566-d4dd6880-7ec1-11eb-90c8-15b6cc7a4562.gif)
+
+비동기 처리 로직이 시작될 때와 끝날 때, state를 toggle하여 submit target을 비활성화 시키고 로딩 컴포넌트를 렌더링했다.
