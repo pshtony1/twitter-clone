@@ -13,12 +13,14 @@
 <br />
 
 ## 1. 스택
-위주
 
-<img src="https://img.shields.io/badge/React-1f232a?style=flat-square&logo=React&logoColor=60dafb" height="24"/>
+* Front-end
+
+<img src="https://img.shields.io/badge/React-1f232a?style=flat-square&logo=React&logoColor=60dafb" height="24"/>&nbsp;<img src="https://img.shields.io/badge/Node.js-1f232a?style=flat-square&logo=Node.js&logoColor=3c873a" height="24"/>&nbsp;<img src="https://img.shields.io/badge/Sass-1f232a?style=flat-square&logo=Sass&logoColor=cc6699" height="24"/>
+
+* Back-end
+
 <img src="https://img.shields.io/badge/Firebase-1f232a?style=flat-square&logo=Firebase&logoColor=ffcb2d" height="24"/>
-<img src="https://img.shields.io/badge/Node.js-1f232a?style=flat-square&logo=Node.js&logoColor=3c873a" height="24"/>
-<img src="https://img.shields.io/badge/Sass-1f232a?style=flat-square&logo=Sass&logoColor=cc6699" height="24"/>
 
 <br />
 
