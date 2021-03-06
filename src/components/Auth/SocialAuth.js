@@ -1,21 +1,12 @@
-import { authService, firebaseInstance } from "firebaseConfig";
 import React from "react";
-import ReactDOM from "react-dom";
+// import ReactDOM from "react-dom";
 import { FcGoogle } from "react-icons/fc";
 import { IoLogoGithub } from "react-icons/io";
+import { authService, firebaseInstance } from "firebaseConfig";
 
 const SocialAuth = () => {
   const onSocialClick = async (e) => {
-    let name;
-
-    for (let i = 0; i < e.nativeEvent.path.length; i++) {
-      const element = ReactDOM.findDOMNode(e.nativeEvent.path[i]);
-
-      if (element.matches("button")) {
-        name = element.name;
-        break;
-      }
-    }
+    const name = e.currentTarget.name;
 
     let provider;
     if (name === "google") {

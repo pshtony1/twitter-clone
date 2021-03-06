@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { dbService, storageService } from "firebaseConfig";
 import React, { useEffect, useRef, useState } from "react";
 import { HiPencilAlt, HiOutlineHeart, HiHeart } from "react-icons/hi";
@@ -28,7 +30,7 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
 
       preUserImg.src = tweetObj.user.photoURL
         ? tweetObj.user.photoURL
-        : "https://www.flaticon.com/svg/static/icons/svg/3064/3064559.svg";
+        : process.env.REACT_APP_DEFAULT_PROFILE;
 
       if (tweetObj.attachmentURL) {
         const preTweetImg = new Image();

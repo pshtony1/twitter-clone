@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { dbService, storageService } from "firebaseConfig";
+import { useHistory } from "react-router-dom";
 import { BiImageAdd } from "react-icons/bi";
 import { RiDeleteBin2Fill } from "react-icons/ri";
-import { useHistory } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
+import { dbService, storageService } from "firebaseConfig";
+import { readFile } from "utils/ManageData";
 
 const UploadTweet = ({ userObj, toggleAddTweet }) => {
   const [tweet, setTweet] = useState("");
@@ -70,19 +71,13 @@ const UploadTweet = ({ userObj, toggleAddTweet }) => {
     const submit = document.querySelector(".add-tweet__submit");
     submit.classList.remove("active");
 
-    const {
-      target: { files },
-    } = e;
-
-    const file = files[0];
-    const reader = new FileReader();
-    reader.onloadend = (finishedEvent) => {
+    const onFileLoad = (finishedEvent) => {
       const {
         currentTarget: { result },
       } = finishedEvent;
 
       let image = new Image();
-      image.onload = function () {
+      image.onload = () => {
         const rect = document.getElementById("root").getBoundingClientRect();
         const maxWidth = rect.width - 30;
         const sizeRate = maxWidth / this.width;
@@ -102,7 +97,7 @@ const UploadTweet = ({ userObj, toggleAddTweet }) => {
       setAttachment(result);
     };
 
-    reader.readAsDataURL(file);
+    readFile(e, onFileLoad);
   };
 
   const onClearAttachment = () => {

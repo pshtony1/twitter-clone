@@ -1,6 +1,6 @@
 import React from "react";
-import AuthForm from "components/Auth/AuthForm";
 import { IoLogoTwitter } from "react-icons/io";
+import AuthForm from "components/Auth/AuthForm";
 
 const Auth = ({ refreshUser }) => {
   return (

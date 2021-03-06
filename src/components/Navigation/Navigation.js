@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { IoLogoTwitter } from "react-icons/io";
-import { authService } from "firebaseConfig";
 import { FiPlus } from "react-icons/fi";
+import { authService } from "firebaseConfig";
 import UploadTweet from "components/Tweet/UploadTweet";
 import { useClickOutSide } from "utils/ClickOutSide";
 
@@ -20,14 +20,14 @@ const Navigation = ({ userObj }) => {
     setOpenProfile(false);
   };
 
-  const toggleProfile = (e, element) => {
+  const toggleProfile = () => {
     const profile = document.querySelector(".nav-item.profile");
 
     profile.classList.toggle("active");
     setOpenProfile((prev) => !prev);
   };
 
-  const toggleAddTweet = (e, element) => {
+  const toggleAddTweet = () => {
     const addTweet = document.querySelector(".add-tweet");
 
     addTweet.classList.toggle("active");

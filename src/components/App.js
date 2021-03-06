@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AppRouter from "components/Router";
-import { IoLogoTwitter } from "react-icons/io";
+import AppLoader from "components/AppLoader/AppLoader";
 import { authService } from "firebaseConfig";
 
 function App() {
@@ -59,10 +59,7 @@ function App() {
           refreshUser={refreshUser}
         />
       ) : (
-        <div className="app-init-loader">
-          <IoLogoTwitter className="loading-logo" />
-          <footer>&copy; 2021 Twitter Clone</footer>
-        </div>
+        <AppLoader />
       )}
     </>
   );

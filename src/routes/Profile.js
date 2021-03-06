@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { dbService, storageService } from "firebaseConfig";
-import { v4 as uuidv4 } from "uuid";
+import { useParams, useHistory } from "react-router-dom";
+import { dbService } from "firebaseConfig";
 import Tweet from "components/Tweet/Tweet";
-import { useHistory } from "react-router-dom";
+import {
+  readFile,
+  removeFileFromStorage,
+  updateTweetFromFirebase,
+  uploadFileToStorage,
+} from "utils/ManageData";
 
 const Profile = ({ userObj, refreshUser }) => {
   const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
@@ -41,10 +45,6 @@ const Profile = ({ userObj, refreshUser }) => {
     e.preventDefault();
 
     if (userObj.displayName !== newDisplayName) {
-      await userObj.updateProfile({
-        displayName: newDisplayName,
-      });
-
       setUserTweets((prev) => {
         return prev.map((tweetObj) => {
           tweetObj.user.displayName = newDisplayName;
@@ -53,8 +53,8 @@ const Profile = ({ userObj, refreshUser }) => {
         });
       });
 
-      userTweets.forEach(async (tweetObj) => {
-        await dbService.doc(`tweets/${tweetObj.id}`).update({
+      userTweets.forEach((tweetObj) => {
+        updateTweetFromFirebase(tweetObj.id, {
           user: {
             ...tweetObj.user,
             displayName: newDisplayName,
@@ -62,41 +62,25 @@ const Profile = ({ userObj, refreshUser }) => {
         });
       });
 
+      await userObj.updateProfile({
+        displayName: newDisplayName,
+      });
+
       refreshUser();
     }
   };
 
   const onFileChange = (e) => {
-    const {
-      target: { files },
-    } = e;
-
-    const file = files[0];
-    const reader = new FileReader();
-    reader.onloadend = async (finishedEvent) => {
+    const onFileLoad = async (finishedEvent) => {
       const {
         currentTarget: { result },
       } = finishedEvent;
 
-      if (userObj.photoURL !== "") {
-        try {
-          await storageService.refFromURL(userObj.photoURL).delete();
-        } catch (error) {
-          console.error(error);
-        }
-      }
+      removeFileFromStorage(userObj.photoURL);
+      const photoURL = uploadFileToStorage(userObj.uid, result);
 
-      let photoURL = "";
-      if (result !== "") {
-        const photoRef = storageService
-          .ref()
-          .child(`${userObj.uid}/${uuidv4()}`);
-        const response = await photoRef.putString(result, "data_url");
-        photoURL = await response.ref.getDownloadURL();
-      }
-
-      userTweets.forEach(async (tweetObj) => {
-        await dbService.doc(`tweets/${tweetObj.id}`).update({
+      userTweets.forEach((tweetObj) => {
+        updateTweetFromFirebase(tweetObj.id, {
           user: {
             ...tweetObj.user,
             photoURL,
@@ -111,20 +95,14 @@ const Profile = ({ userObj, refreshUser }) => {
       history.go(0);
     };
 
-    reader.readAsDataURL(file);
+    readFile(e, onFileLoad);
   };
 
   const onRemoveClick = async () => {
-    if (userObj.photoURL !== "") {
-      try {
-        await storageService.refFromURL(userObj.photoURL).delete();
-      } catch (error) {
-        console.error(error);
-      }
-    }
+    removeFileFromStorage(userObj.photoURL);
 
     userTweets.forEach(async (tweetObj) => {
-      await dbService.doc(`tweets/${tweetObj.id}`).update({
+      updateTweetFromFirebase(tweetObj.id, {
         user: {
           ...tweetObj.user,
           photoURL: "",
@@ -161,7 +139,7 @@ const Profile = ({ userObj, refreshUser }) => {
                 src={
                   userObj.photoURL
                     ? userObj.photoURL
-                    : "https://www.flaticon.com/svg/static/icons/svg/3064/3064559.svg"
+                    : process.env.REACT_APP_DEFAULT_PROFILE
                 }
                 alt=""
               />

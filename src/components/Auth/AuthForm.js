@@ -1,9 +1,9 @@
-import { authService } from "firebaseConfig";
 import React, { useState } from "react";
+import Loader from "react-loader-spinner";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { FiArrowRight } from "react-icons/fi";
+import { authService } from "firebaseConfig";
 import SocialAuth from "./SocialAuth";
-import Loader from "react-loader-spinner";
 
 const AuthForm = ({ refreshUser }) => {
   const [email, setEmail] = useState("");
@@ -89,7 +89,7 @@ const AuthForm = ({ refreshUser }) => {
     }
   };
 
-  const toggleVisible = (e) => {
+  const toggleVisible = () => {
     const pwInput = document.querySelector(".password-input");
 
     if (visiblePassword) {

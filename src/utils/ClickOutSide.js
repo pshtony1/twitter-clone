@@ -11,7 +11,7 @@ export const useClickOutSide = (buttonQuery, toggleProfile) => {
         const button = document.querySelector(buttonQuery);
 
         if (!button.contains(event.target)) {
-          toggleProfile(null, element.current);
+          toggleProfile();
         }
       }
     };
