@@ -6,8 +6,7 @@
 
 [프로젝트 링크](https://pshtony1.github.io/twitter-clone/)
 
-![2](https://user-images.githubusercontent.com/67461578/110203648-ac01a700-7eb2-11eb-908e-d225c2b66484.png){: width: "300"}
-![1](https://user-images.githubusercontent.com/67461578/110203647-aad07a00-7eb2-11eb-9a6e-4585d0cd8e7c.png){: width: "300"}
+<img src="https://user-images.githubusercontent.com/67461578/110203648-ac01a700-7eb2-11eb-908e-d225c2b66484.png" width="50%" /><img src="https://user-images.githubusercontent.com/67461578/110203647-aad07a00-7eb2-11eb-9a6e-4585d0cd8e7c.png" width="50%" />
 
 ---
 
