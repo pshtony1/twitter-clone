@@ -115,3 +115,13 @@ const TweetSkeleton = ({ attachmentURL, attachmentHeight }) => {
 ![loading3](https://user-images.githubusercontent.com/67461578/110206566-d4dd6880-7ec1-11eb-90c8-15b6cc7a4562.gif)
 
 비동기 처리 로직이 시작될 때와 끝날 때, state를 toggle하여 submit target을 비활성화 시키고 로딩 컴포넌트를 렌더링했다.
+
+<br />
+
+### 🙉 트윗의 글자 수가 매우 크면 트윗 컴포넌트가 차지하는 크기가 매우 커졌다.
+
+트윗에 적을 수 있는 최대 글자 수는 1000글자였는데, 트윗의 모든 글을 한 번에 다 보여주면 컴포넌트의 높이가 매우 커질 수 있었다.
+
+#### ✔ 특정 글자 수 이상의 트윗은 '더보기' 기능을 추가해 높이를 조절했다.
+
+![more1](https://user-images.githubusercontent.com/67461578/110207732-d2cad800-7ec8-11eb-845f-8e31e14af8c4.gif)
