@@ -162,7 +162,6 @@ const AuthForm = ({ refreshUser }) => {
               placeholder="Display Name"
               value={displayName}
               onChange={onChange}
-              autoFocus
             />
           </div>
         )}
