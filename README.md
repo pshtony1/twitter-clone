@@ -14,14 +14,37 @@
 
 ## 1. 스택
 
-* Front-end
+* **Front-end**
 
 <img src="https://img.shields.io/badge/React-1f232a?style=flat-square&logo=React&logoColor=60dafb" height="24"/>&nbsp;<img src="https://img.shields.io/badge/Node.js-1f232a?style=flat-square&logo=Node.js&logoColor=3c873a" height="24"/>&nbsp;<img src="https://img.shields.io/badge/Sass-1f232a?style=flat-square&logo=Sass&logoColor=cc6699" height="24"/>
 
-* Back-end
+* **Back-end**
 
 <img src="https://img.shields.io/badge/Firebase-1f232a?style=flat-square&logo=Firebase&logoColor=ffcb2d" height="24"/>
 
 <br />
 
 ## 2. 기능
+이하는 현재 모두 구현된 기능들이다.  
+Real-Time 적용이 지원되는 항목은 `R`이 붙는다.
+
+### 2 - 1. 계정 및 인증 🔐
+* 로그인/회원가입
+
+* 소셜 로그인
+  * Google
+  * Github
+ 
+### 2 - 2. 유저 👱‍♂️
+* Display name 수정 - `R`
+
+* Profile photo 업로드/삭제 - `R`
+
+* 작성한 트윗들 모아보기
+
+### 2 - 3. 트윗 💦
+* 트윗 작성 및 사진 업로드 - `R`
+
+* 트윗 수정 및 삭제 - `R`
+
+* 좋아요 기능 - `R`
