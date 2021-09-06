@@ -53,7 +53,7 @@ const Navigation = ({ userObj }) => {
           src={
             userObj.photoURL
               ? userObj.photoURL
-              : "https://www.flaticon.com/svg/static/icons/svg/3064/3064559.svg"
+              : process.env.REACT_APP_DEFAULT_PROFILE
           }
           alt=""
         />
